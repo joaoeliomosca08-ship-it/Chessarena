@@ -3,157 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xadrez PvP + IA Multiplayer</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♔</text></svg>">
+    <title>Xadrez PvP - Debug</title>
+    <!-- Mantenha seus links de CSS aqui -->
+    <style>
+        /* Estilo para o botão de debug */
+        #debug-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            font-size: 20px;
+            z-index: 9999;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header class="game-header">
-            <div class="logo">
-                <i class="fas fa-chess-king"></i>
-                <h1>Xadrez PvP & IA</h1>
-            </div>
-            <div class="game-status" id="game-status">Pronto para jogar</div>
-        </header>
+    <!-- Aqui vai o resto do seu HTML normal do jogo... -->
 
-        <div class="chess-board-container">
-            <div class="board-wrapper">
-                <div class="coordinate-axis horizontal top">
-                    <span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span>
-                </div>
-                
-                <div class="chess-board" id="chess-board"></div>
-                
-                <div class="coordinate-axis horizontal bottom">
-                    <span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span>
-                </div>
-            </div>
-        </div>
+    <!-- Botão de debug flutuante -->
+    <button id="debug-btn" title="Abrir Console">🐛</button>
 
-        <div class="control-panel">
-            <div class="control-section">
-                <h3><i class="fas fa-gamepad"></i> Modo de Jogo</h3>
-                <div class="button-group">
-                    <button class="btn mode-btn" data-mode="pvp">PvP Local</button>
-                    <button class="btn mode-btn" data-mode="ai-easy">IA Fácil</button>
-                    <button class="btn mode-btn" data-mode="ai-medium">IA Média</button>
-                    <button class="btn mode-btn" data-mode="ai-hard">IA Difícil</button>
-                    <button class="btn mode-btn" data-mode="ai-expert">IA Avançada</button>
-                    <button class="btn mode-btn" data-mode="ai-master">IA Super</button>
-                </div>
-            </div>
-
-            <div class="control-section">
-                <h3><i class="fas fa-cogs"></i> Configurações</h3>
-                <div class="settings-grid">
-                    <div class="setting-item">
-                        <label for="time-control">Tempo:</label>
-                        <select id="time-control" class="dropdown">
-                            <option value="1">1 minuto</option>
-                            <option value="3">3 minutos</option>
-                            <option value="5" selected>5 minutos</option>
-                            <option value="10">10 minutos</option>
-                        </select>
-                    </div>
-                    <div class="setting-item">
-                        <label for="sound-toggle">Sons:</label>
-                        <div class="toggle-switch">
-                            <input type="checkbox" id="sound-toggle" checked>
-                            <label for="sound-toggle" class="toggle-label"></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="control-section">
-                <h3><i class="fas fa-play-circle"></i> Controles</h3>
-                <div class="button-group">
-                    <button class="btn control-btn" id="btn-new-game">Novo Jogo</button>
-                    <button class="btn control-btn" id="btn-undo">Desfazer</button>
-                    <button class="btn control-btn" id="btn-flip-board">Virar Tabuleiro</button>
-                    <button class="btn control-btn" id="btn-hint">Dica</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="promotion-modal">
-            <div class="modal-content">
-                <h3>Promover Peão</h3>
-                <p>Escolha uma peça:</p>
-                <div class="promotion-options">
-                    <div class="promotion-piece" data-piece="queen">♕ Rainha</div>
-                    <div class="promotion-piece" data-piece="rook">♖ Torre</div>
-                    <div class="promotion-piece" data-piece="bishop">♗ Bispo</div>
-                    <div class="promotion-piece" data-piece="knight">♘ Cavalo</div>
-                </div>
-                <button class="btn modal-close" id="cancel-promotion">Cancelar</button>
-            </div>
-        </div>
-
-        <div class="modal-overlay" id="gameover-modal">
-            <div class="modal-content gameover">
-                <h2 id="gameover-title">Fim de Jogo!</h2>
-                <div id="gameover-result"></div>
-                <div class="gameover-actions">
-                    <button class="btn" id="btn-rematch">Revanche</button>
-                    <button class="btn" id="btn-new-game-modal">Novo Jogo</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <audio id="sound-move" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-chess-move-1566.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="sound-capture" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-chess-capture-1567.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="sound-check" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-buzzer-1551.mp3" type="audio/mpeg">
-    </audio>
-
+    <script>
+        // Função que força a abertura das ferramentas de desenvolvedor
+        document.getElementById('debug-btn').addEventListener('click', function() {
+            // Método 1: Tenta abrir o console via código
+            if (window.chrome && chrome.devtools) {
+                console.log('Tentando abrir DevTools...');
+            }
+            
+            // Método 2: Mostra todos os erros em um alerta grande
+            console.error('=== ERROS DO JOGO ===');
+            
+            // Método 3: Cria um painel de debug na própria tela
+            const debugPanel = document.createElement('div');
+            debugPanel.id = 'debug-panel';
+            debugPanel.style.cssText = `
+                position: fixed;
+                top: 50px;
+                left: 10px;
+                right: 10px;
+                background: rgba(0,0,0,0.9);
+                color: #0f0;
+                padding: 15px;
+                border-radius: 10px;
+                z-index: 10000;
+                font-family: monospace;
+                max-height: 70vh;
+                overflow-y: auto;
+            `;
+            
+            // Coleta informações importantes
+            let debugInfo = '<h3>🔍 DEBUG DO JOGO</h3>';
+            
+            // Verifica se arquivos JS carregaram
+            debugInfo += '<h4>📦 Scripts Carregados:</h4>';
+            const scripts = document.querySelectorAll('script[src]');
+            scripts.forEach(s => {
+                debugInfo += `✓ ${s.src}<br>`;
+            });
+            
+            // Testa classes principais
+            debugInfo += '<h4>🎮 Classes do Jogo:</h4>';
+            const classes = ['ChessRules', 'ChessAI', 'SoundManager', 'ChessGame'];
+            classes.forEach(className => {
+                const exists = typeof window[className] !== 'undefined';
+                debugInfo += `${className}: ${exists ? '✅ CARREGADO' : '❌ NÃO ENCONTRADO'}<br>`;
+            });
+            
+            // Verifica erros do console
+            debugInfo += '<h4>🚨 Últimos Erros:</h4>';
+            debugInfo += '<em>Recarregue a página para ver erros aqui...</em><br>';
+            
+            // Botão para recarregar
+            debugInfo += '<br><button onclick="location.reload()" style="padding: 8px; background: #3498db; color: white; border: none; border-radius: 5px;">🔄 Recarregar Página</button>';
+            debugInfo += ' <button onclick="document.getElementById(\'debug-panel\').remove()" style="padding: 8px; background: #e74c3c; color: white; border: none; border-radius: 5px;">❌ Fechar</button>';
+            
+            debugPanel.innerHTML = debugInfo;
+            
+            // Remove painel anterior se existir
+            const oldPanel = document.getElementById('debug-panel');
+            if (oldPanel) oldPanel.remove();
+            
+            document.body.appendChild(debugPanel);
+        });
+        
+        // Também tenta detectar erros automaticamente
+        window.onerror = function(msg, url, line) {
+            console.error(`ERRO DETECTADO: ${msg} em ${url}:${line}`);
+            
+            // Mostra alerta se for erro grave
+            if (msg.includes('ChessGame') || msg.includes('ChessRules')) {
+                const errorDiv = document.createElement('div');
+                errorDiv.style.cssText = `
+                    position: fixed;
+                    top: 10px;
+                    left: 10px;
+                    right: 10px;
+                    background: #c0392b;
+                    color: white;
+                    padding: 15px;
+                    border-radius: 5px;
+                    z-index: 9999;
+                    font-family: Arial;
+                `;
+                errorDiv.innerHTML = `
+                    <strong>🚨 ERRO NO JOGO</strong><br>
+                    ${msg}<br>
+                    <small>Linha ${line}</small><br>
+                    <button onclick="this.parentElement.remove()" style="margin-top: 10px; padding: 5px 10px; background: white; color: #c0392b; border: none; border-radius: 3px;">OK</button>
+                `;
+                document.body.appendChild(errorDiv);
+            }
+            return false;
+        };
+        
+        // Inicia debug automático após 3 segundos
+        setTimeout(() => {
+            console.log('=== AUTO-DEBUG INICIADO ===');
+            console.log('URL:', window.location.href);
+            console.log('User Agent:', navigator.userAgent);
+            console.log('Scripts:', document.scripts.length);
+        }, 3000);
+    </script>
+    
+    <!-- Seus scripts normais do jogo -->
     <script src="chess-rules.js"></script>
     <script src="ai-engine.js"></script>
     <script src="sounds.js"></script>
     <script src="game-controller.js"></script>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM carregado - iniciando jogo...');
-            
-            try {
-                // Cria o jogo
-                window.game = new ChessGame();
-                console.log('✅ Jogo criado com sucesso!');
-                
-                // Testa se elementos existem
-                console.log('Testando elementos:');
-                console.log('- btn-new-game:', document.getElementById('btn-new-game'));
-                console.log('- board:', document.getElementById('chess-board'));
-                console.log('- mode buttons:', document.querySelectorAll('.mode-btn').length);
-                
-                // Inicia automaticamente
-                window.game.setGameMode('pvp');
-                
-                // Atualiza status
-                document.getElementById('game-status').textContent = 'Jogo pronto! Clique em Novo Jogo';
-                
-            } catch (error) {
-                console.error('❌ ERRO ao iniciar jogo:', error);
-                document.getElementById('game-status').textContent = 'Erro: ' + error.message;
-                alert('Erro ao carregar o jogo. Verifique o console (F12).');
-            }
-        });
-        
-        // Debug extra
-        window.addEventListener('load', function() {
-            console.log('✅ Página totalmente carregada');
-            console.log('✅ CSS carregado:', document.styleSheets.length > 0);
-            console.log('✅ Scripts carregados');
-        });
-    </script>
 </body>
 </html>
