@@ -7,484 +7,104 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♔</text></svg>">
 </head>
 <body>
     <div class="container">
-        <!-- Cabeçalho -->
         <header class="game-header">
             <div class="logo">
                 <i class="fas fa-chess-king"></i>
                 <h1>Xadrez PvP & IA</h1>
             </div>
-            <div class="game-info">
-                <div class="clock" id="white-clock">Branco: 10:00</div>
-                <div class="game-status" id="game-status">Pronto para jogar</div>
-                <div class="clock" id="black-clock">Preto: 10:00</div>
-            </div>
+            <div class="game-status" id="game-status">Pronto para jogar</div>
         </header>
 
-        <!-- Área principal do jogo -->
-        <main class="game-area">
-            <!-- Painel esquerdo - Jogador Preto -->
-            <section class="player-panel black-panel">
-                <div class="player-info">
-                    <div class="player-avatar">
-                        <i class="fas fa-chess-queen"></i>
-                    </div>
-                    <div class="player-details">
-                        <h3 id="black-player-name">Preto (IA)</h3>
-                        <div class="player-rating">
-                            <i class="fas fa-star"></i>
-                            <span id="black-rating">1500</span>
-                        </div>
-                    </div>
+        <div class="chess-board-container">
+            <div class="board-wrapper">
+                <div class="coordinate-axis horizontal top">
+                    <span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span>
                 </div>
-                <div class="captured-pieces" id="black-captured">
-                    <!-- Peças capturadas aparecerão aqui -->
+                
+                <div class="chess-board" id="chess-board"></div>
+                
+                <div class="coordinate-axis horizontal bottom">
+                    <span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span>
                 </div>
-            </section>
+            </div>
+        </div>
 
-            <!-- Tabuleiro de Xadrez -->
-            <section class="chess-board-container">
-                <div class="coordinate-axis vertical left">
-                    <span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
-                </div>
-                <div class="board-wrapper">
-                    <div class="coordinate-axis horizontal top">
-                        <span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span>
-                    </div>
-                    
-                    <div class="chess-board" id="chess-board">
-                        <!-- Tabuleiro 8x8 será gerado por JavaScript -->
-                    </div>
-                    
-                    <div class="coordinate-axis horizontal bottom">
-                        <span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span>
-                    </div>
-                </div>
-                <div class="coordinate-axis vertical right">
-                    <span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span>
-                </div>
-            </section>
-
-            <!-- Painel direito - Jogador Branco -->
-            <section class="player-panel white-panel">
-                <div class="player-info">
-                    <div class="player-avatar">
-                        <i class="fas fa-chess-king"></i>
-                    </div>
-                    <div class="player-details">
-                        <h3 id="white-player-name">Branco (Você)</h3>
-                        <div class="player-rating">
-                            <i class="fas fa-star"></i>
-                            <span id="white-rating">1500</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="captured-pieces" id="white-captured">
-                    <!-- Peças capturadas aparecerão aqui -->
-                </div>
-            </section>
-        </main>
-
-        <!-- Painel de controle -->
-        <section class="control-panel">
-            <!-- Modo de jogo -->
+        <div class="control-panel">
             <div class="control-section">
                 <h3><i class="fas fa-gamepad"></i> Modo de Jogo</h3>
                 <div class="button-group">
-                    <button class="btn mode-btn active" data-mode="pvp" id="mode-pvp">
-                        <i class="fas fa-users"></i> PvP Local
-                    </button>
-                    <button class="btn mode-btn" data-mode="ai-easy" id="mode-ai-easy">
-                        <i class="fas fa-robot"></i> IA Fácil
-                    </button>
-                    <button class="btn mode-btn" data-mode="ai-medium" id="mode-ai-medium">
-                        <i class="fas fa-robot"></i> IA Média
-                    </button>
-                    <button class="btn mode-btn" data-mode="ai-hard" id="mode-ai-hard">
-                        <i class="fas fa-robot"></i> IA Difícil
-                    </button>
-                    <button class="btn mode-btn" data-mode="ai-expert" id="mode-ai-expert">
-                        <i class="fas fa-brain"></i> IA Avançada
-                    </button>
-                    <button class="btn mode-btn" data-mode="ai-master" id="mode-ai-master">
-                        <i class="fas fa-crown"></i> IA Super
-                    </button>
+                    <button class="btn mode-btn" data-mode="pvp">PvP Local</button>
+                    <button class="btn mode-btn" data-mode="ai-easy">IA Fácil</button>
+                    <button class="btn mode-btn" data-mode="ai-medium">IA Média</button>
+                    <button class="btn mode-btn" data-mode="ai-hard">IA Difícil</button>
+                    <button class="btn mode-btn" data-mode="ai-expert">IA Avançada</button>
+                    <button class="btn mode-btn" data-mode="ai-master">IA Super</button>
                 </div>
             </div>
 
-            <!-- Configurações do jogo -->
             <div class="control-section">
                 <h3><i class="fas fa-cogs"></i> Configurações</h3>
                 <div class="settings-grid">
                     <div class="setting-item">
-                        <label for="time-control">
-                            <i class="fas fa-clock"></i> Tempo:
-                        </label>
+                        <label for="time-control">Tempo:</label>
                         <select id="time-control" class="dropdown">
                             <option value="1">1 minuto</option>
                             <option value="3">3 minutos</option>
                             <option value="5" selected>5 minutos</option>
                             <option value="10">10 minutos</option>
-                            <option value="15">15 minutos</option>
-                            <option value="30">30 minutos</option>
-                            <option value="0">Sem limite</option>
                         </select>
                     </div>
                     <div class="setting-item">
-                        <label for="sound-toggle">
-                            <i class="fas fa-volume-up"></i> Sons:
-                        </label>
+                        <label for="sound-toggle">Sons:</label>
                         <div class="toggle-switch">
                             <input type="checkbox" id="sound-toggle" checked>
                             <label for="sound-toggle" class="toggle-label"></label>
                         </div>
                     </div>
-                    <div class="setting-item">
-                        <label for="highlight-toggle">
-                            <i class="fas fa-highlighter"></i> Destaques:
-                        </label>
-                        <div class="toggle-switch">
-                            <input type="checkbox" id="highlight-toggle" checked>
-                            <label for="highlight-toggle" class="toggle-label"></label>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <label for="board-color">
-                            <i class="fas fa-palette"></i> Tabuleiro:
-                        </label>
-                        <select id="board-color" class="dropdown">
-                            <option value="classic" selected>Clássico (Branco/Marrom)</option>
-                            <option value="green">Verde</option>
-                            <option value="blue">Azul</option>
-                            <option value="dark">Escuro</option>
-                        </select>
-                    </div>
                 </div>
             </div>
 
-            <!-- Controles do jogo -->
             <div class="control-section">
                 <h3><i class="fas fa-play-circle"></i> Controles</h3>
                 <div class="button-group">
-                    <button class="btn control-btn primary" id="btn-new-game">
-                        <i class="fas fa-plus-circle"></i> Novo Jogo
-                    </button>
-                    <button class="btn control-btn" id="btn-undo">
-                        <i class="fas fa-undo"></i> Desfazer
-                    </button>
-                    <button class="btn control-btn" id="btn-redo">
-                        <i class="fas fa-redo"></i> Refazer
-                    </button>
-                    <button class="btn control-btn" id="btn-flip-board">
-                        <i class="fas fa-sync-alt"></i> Virar Tabuleiro
-                    </button>
-                    <button class="btn control-btn" id="btn-hint">
-                        <i class="fas fa-lightbulb"></i> Dica
-                    </button>
-                    <button class="btn control-btn" id="btn-save">
-                        <i class="fas fa-save"></i> Salvar
-                    </button>
-                    <button class="btn control-btn" id="btn-load">
-                        <i class="fas fa-folder-open"></i> Carregar
-                    </button>
-                    <button class="btn control-btn warning" id="btn-resign">
-                        <i class="fas fa-flag"></i> Desistir
-                    </button>
+                    <button class="btn control-btn" id="btn-new-game">Novo Jogo</button>
+                    <button class="btn control-btn" id="btn-undo">Desfazer</button>
+                    <button class="btn control-btn" id="btn-flip-board">Virar Tabuleiro</button>
+                    <button class="btn control-btn" id="btn-hint">Dica</button>
                 </div>
             </div>
+        </div>
 
-            <!-- Movimentos e histórico -->
-            <div class="control-section">
-                <h3><i class="fas fa-history"></i> Histórico de Movimentos</h3>
-                <div class="move-history-container">
-                    <div class="move-history-header">
-                        <span>#</span>
-                        <span>Branco</span>
-                        <span>Preto</span>
-                    </div>
-                    <div class="move-history" id="move-history">
-                        <!-- Movimentos aparecerão aqui -->
-                    </div>
-                </div>
-                <div class="moves-info">
-                    <div class="move-count">
-                        <i class="fas fa-step-forward"></i>
-                        <span>Movimento: <span id="move-number">1</span></span>
-                    </div>
-                    <div class="turn-indicator">
-                        <i class="fas fa-user"></i>
-                        <span>Vez: <span id="current-turn">Branco</span></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Status do jogo -->
-            <div class="control-section">
-                <h3><i class="fas fa-info-circle"></i> Status do Jogo</h3>
-                <div class="game-status-panel">
-                    <div class="status-item">
-                        <i class="fas fa-chess-board"></i>
-                        <span>Tabuleiro: <span id="board-state">Ativo</span></span>
-                    </div>
-                    <div class="status-item">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <span>Xeque: <span id="check-status">Não</span></span>
-                    </div>
-                    <div class="status-item">
-                        <i class="fas fa-chess"></i>
-                        <span>Peças: <span id="piece-count">32</span></span>
-                    </div>
-                    <div class="status-item">
-                        <i class="fas fa-fire"></i>
-                        <span>Dificuldade: <span id="difficulty-level">PvP</span></span>
-                    </div>
-                    <div class="status-item">
-                        <i class="fas fa-bolt"></i>
-                        <span>Tempo de IA: <span id="ai-time">0.0s</span></span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Modal de promoção de peão -->
         <div class="modal-overlay" id="promotion-modal">
             <div class="modal-content">
                 <h3>Promover Peão</h3>
-                <p>Escolha uma peça para promover:</p>
+                <p>Escolha uma peça:</p>
                 <div class="promotion-options">
-                    <div class="promotion-piece" data-piece="queen">
-                        <i class="fas fa-chess-queen"></i>
-                        <span>Rainha</span>
-                    </div>
-                    <div class="promotion-piece" data-piece="rook">
-                        <i class="fas fa-chess-rook"></i>
-                        <span>Torre</span>
-                    </div>
-                    <div class="promotion-piece" data-piece="bishop">
-                        <i class="fas fa-chess-bishop"></i>
-                        <span>Bispo</span>
-                    </div>
-                    <div class="promotion-piece" data-piece="knight">
-                        <i class="fas fa-chess-knight"></i>
-                        <span>Cavalo</span>
-                    </div>
+                    <div class="promotion-piece" data-piece="queen">♕ Rainha</div>
+                    <div class="promotion-piece" data-piece="rook">♖ Torre</div>
+                    <div class="promotion-piece" data-piece="bishop">♗ Bispo</div>
+                    <div class="promotion-piece" data-piece="knight">♘ Cavalo</div>
                 </div>
                 <button class="btn modal-close" id="cancel-promotion">Cancelar</button>
             </div>
         </div>
 
-        <!-- Modal de fim de jogo -->
         <div class="modal-overlay" id="gameover-modal">
             <div class="modal-content gameover">
                 <h2 id="gameover-title">Fim de Jogo!</h2>
-                <div class="gameover-result" id="gameover-result">
-                    <!-- Resultado será inserido aqui -->
-                </div>
-                <div class="gameover-stats">
-                    <div class="stat">
-                        <span>Movimentos:</span>
-                        <strong id="gameover-moves">0</strong>
-                    </div>
-                    <div class="stat">
-                        <span>Tempo:</span>
-                        <strong id="gameover-time">00:00</strong>
-                    </div>
-                    <div class="stat">
-                        <span>Vencedor:</span>
-                        <strong id="gameover-winner">Nenhum</strong>
-                    </div>
-                </div>
+                <div id="gameover-result"></div>
                 <div class="gameover-actions">
-                    <button class="btn primary" id="btn-rematch">
-                        <i class="fas fa-redo"></i> Revanche
-                    </button>
-                    <button class="btn" id="btn-new-game-modal">
-                        <i class="fas fa-plus-circle"></i> Novo Jogo
-                    </button>
-                    <button class="btn" id="btn-analyze">
-                        <i class="fas fa-chart-line"></i> Analisar
-                    </button>
+                    <button class="btn" id="btn-rematch">Revanche</button>
+                    <button class="btn" id="btn-new-game-modal">Novo Jogo</button>
                 </div>
             </div>
         </div>
-
-        <!-- Modal de configurações -->
-        <div class="modal-overlay" id="settings-modal">
-            <div class="modal-content settings">
-                <h2><i class="fas fa-sliders-h"></i> Configurações Avançadas</h2>
-                
-                <div class="settings-group">
-                    <h3><i class="fas fa-chess"></i> Regras do Jogo</h3>
-                    <div class="setting-row">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="setting-en-passant" checked>
-                            <span>Ativar en passant</span>
-                        </label>
-                    </div>
-                    <div class="setting-row">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="setting-castling" checked>
-                            <span>Ativar roque</span>
-                        </label>
-                    </div>
-                    <div class="setting-row">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="setting-pawn-double" checked>
-                            <span>Peão avança 2 casas inicialmente</span>
-                        </label>
-                    </div>
-                    <div class="setting-row">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="setting-promotion" checked>
-                            <span>Promoção automática para rainha</span>
-                        </label>
-                    </div>
-                    <div class="setting-row">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="setting-50move" checked>
-                            <span>Regra dos 50 movimentos</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="settings-group">
-                    <h3><i class="fas fa-robot"></i> Configurações da IA</h3>
-                    <div class="setting-row">
-                        <label>Nível de IA Fácil:</label>
-                        <select id="ai-easy-level" class="dropdown">
-                            <option value="1">1 - Iniciante</option>
-                            <option value="2" selected>2 - Fácil</option>
-                            <option value="3">3 - Intermediário Baixo</option>
-                        </select>
-                    </div>
-                    <div class="setting-row">
-                        <label>Nível de IA Média:</label>
-                        <select id="ai-medium-level" class="dropdown">
-                            <option value="4">4 - Intermediário</option>
-                            <option value="5" selected>5 - Média</option>
-                            <option value="6">6 - Intermediário Alto</option>
-                        </select>
-                    </div>
-                    <div class="setting-row">
-                        <label>Nível de IA Difícil:</label>
-                        <select id="ai-hard-level" class="dropdown">
-                            <option value="7">7 - Difícil</option>
-                            <option value="8" selected>8 - Avançado Baixo</option>
-                            <option value="9">9 - Avançado</option>
-                        </select>
-                    </div>
-                    <div class="setting-row">
-                        <label>Nível de IA Avançada:</label>
-                        <select id="ai-expert-level" class="dropdown">
-                            <option value="10">10 - Expert</option>
-                            <option value="11" selected>11 - Mestre</option>
-                            <option value="12">12 - Grande Mestre</option>
-                        </select>
-                    </div>
-                    <div class="setting-row">
-                        <label>Nível de IA Super:</label>
-                        <select id="ai-master-level" class="dropdown">
-                            <option value="13">13 - Super GM</option>
-                            <option value="14">14 - Stockfish Nível 1</option>
-                            <option value="15" selected>15 - Stockfish Nível 2</option>
-                            <option value="16">16 - Stockfish Nível 3</option>
-                            <option value="17">17 - Stockfish Máximo</option>
-                        </select>
-                    </div>
-                    <div class="setting-row">
-                        <label>Tempo máximo de IA (ms):</label>
-                        <input type="number" id="ai-max-time" value="5000" min="100" max="30000">
-                    </div>
-                </div>
-
-                <div class="settings-group">
-                    <h3><i class="fas fa-volume-up"></i> Configurações de Som</h3>
-                    <div class="setting-row">
-                        <label>Volume Geral:</label>
-                        <input type="range" id="master-volume" min="0" max="100" value="70">
-                    </div>
-                    <div class="setting-row">
-                        <label>Volume de Movimentos:</label>
-                        <input type="range" id="move-volume" min="0" max="100" value="80">
-                    </div>
-                    <div class="setting-row">
-                        <label>Volume de Capturas:</label>
-                        <input type="range" id="capture-volume" min="0" max="100" value="90">
-                    </div>
-                    <div class="setting-row">
-                        <label>Volume de Xeque:</label>
-                        <input type="range" id="check-volume" min="0" max="100" value="100">
-                    </div>
-                </div>
-
-                <div class="settings-group">
-                    <h3><i class="fas fa-eye"></i> Aparência</h3>
-                    <div class="setting-row">
-                        <label>Tamanho das Peças:</label>
-                        <select id="piece-size" class="dropdown">
-                            <option value="small">Pequeno</option>
-                            <option value="medium" selected>Médio</option>
-                            <option value="large">Grande</option>
-                        </select>
-                    </div>
-                    <div class="setting-row">
-                        <label>Estilo das Peças:</label>
-                        <select id="piece-style" class="dropdown">
-                            <option value="alpha">Alpha (Clássico)</option>
-                            <option value="merida" selected>Merida (Moderno)</option>
-                            <option value="leipzig">Leipzig (Elegante)</option>
-                        </select>
-                    </div>
-                    <div class="setting-row">
-                        <label>Animações:</label>
-                        <select id="animation-speed" class="dropdown">
-                            <option value="0">Desativado</option>
-                            <option value="slow">Lento</option>
-                            <option value="medium" selected>Médio</option>
-                            <option value="fast">Rápido</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="modal-actions">
-                    <button class="btn primary" id="save-settings">
-                        <i class="fas fa-save"></i> Salvar Configurações
-                    </button>
-                    <button class="btn" id="reset-settings">
-                        <i class="fas fa-undo"></i> Restaurar Padrões
-                    </button>
-                    <button class="btn" id="close-settings">
-                        <i class="fas fa-times"></i> Fechar
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Rodapé -->
-        <footer class="game-footer">
-            <div class="footer-left">
-                <p><i class="fas fa-code"></i> Desenvolvido com ♛ por Xadrez PvP</p>
-            </div>
-            <div class="footer-center">
-                <button class="btn footer-btn" id="btn-help">
-                    <i class="fas fa-question-circle"></i> Ajuda
-                </button>
-                <button class="btn footer-btn" id="btn-about">
-                    <i class="fas fa-info-circle"></i> Sobre
-                </button>
-                <button class="btn footer-btn" id="btn-settings">
-                    <i class="fas fa-cog"></i> Configurações Avançadas
-                </button>
-            </div>
-            <div class="footer-right">
-                <p><i class="fas fa-sync-alt"></i> <span id="connection-status">Online</span></p>
-            </div>
-        </footer>
     </div>
 
-    <!-- Áudio elementos -->
     <audio id="sound-move" preload="auto">
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-chess-move-1566.mp3" type="audio/mpeg">
     </audio>
@@ -494,40 +114,45 @@
     <audio id="sound-check" preload="auto">
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-buzzer-1551.mp3" type="audio/mpeg">
     </audio>
-    <audio id="sound-checkmate" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="sound-castle" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkles-300.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="sound-promotion" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="sound-illegal" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="sound-click" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
-    </audio>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
-    <script src="sounds.js"></script>
     <script src="chess-rules.js"></script>
     <script src="ai-engine.js"></script>
+    <script src="sounds.js"></script>
     <script src="game-controller.js"></script>
     
-    <!-- Inicialização -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const game = new ChessGame();
-            game.init();
+            console.log('DOM carregado - iniciando jogo...');
             
-            // Atualizar status de conexão
-            setInterval(() => {
-                document.getElementById('connection-status').textContent = 
-                    navigator.onLine ? 'Online' : 'Offline';
-            }, 5000);
+            try {
+                // Cria o jogo
+                window.game = new ChessGame();
+                console.log('✅ Jogo criado com sucesso!');
+                
+                // Testa se elementos existem
+                console.log('Testando elementos:');
+                console.log('- btn-new-game:', document.getElementById('btn-new-game'));
+                console.log('- board:', document.getElementById('chess-board'));
+                console.log('- mode buttons:', document.querySelectorAll('.mode-btn').length);
+                
+                // Inicia automaticamente
+                window.game.setGameMode('pvp');
+                
+                // Atualiza status
+                document.getElementById('game-status').textContent = 'Jogo pronto! Clique em Novo Jogo';
+                
+            } catch (error) {
+                console.error('❌ ERRO ao iniciar jogo:', error);
+                document.getElementById('game-status').textContent = 'Erro: ' + error.message;
+                alert('Erro ao carregar o jogo. Verifique o console (F12).');
+            }
+        });
+        
+        // Debug extra
+        window.addEventListener('load', function() {
+            console.log('✅ Página totalmente carregada');
+            console.log('✅ CSS carregado:', document.styleSheets.length > 0);
+            console.log('✅ Scripts carregados');
         });
     </script>
 </body>
